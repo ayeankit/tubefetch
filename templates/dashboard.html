@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - YouTube Video Fetcher{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-1">
+                        <i class="fas fa-video me-2 text-danger"></i>
+                        YouTube Videos Dashboard
+                    </h1>
+                    <p class="text-muted">Manage and browse YouTube videos with search and pagination</p>
+                </div>
+                <div>
+                    <button id="fetchVideosBtn" class="btn btn-primary">
+                        <i class="fas fa-download me-1"></i>
+                        Fetch New Videos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <i class="fas fa-video fa-2x text-danger mb-2"></i>
+                    <h3 class="card-title mb-1" id="totalVideos">-</h3>
+                    <p class="card-text text-muted">Total Videos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                    <h6 class="card-title mb-1" id="latestVideo">-</h6>
+                    <p class="card-text text-muted">Latest Video</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar fa-2x text-info mb-2"></i>
+                    <h6 class="card-title mb-1" id="oldestVideo">-</h6>
+                    <p class="card-text text-muted">Oldest Video</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="searchInput" class="form-label">Search Videos</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" class="form-control" id="searchInput" 
+                                       placeholder="Search by title or description...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="queryInput" class="form-label">Fetch Query</label>
+                            <input type="text" class="form-control" id="queryInput" 
+                                   placeholder="programming" value="programming">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="perPageSelect" class="form-label">Per Page</label>
+                            <select class="form-select" id="perPageSelect">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-primary" id="searchBtn">
+                                <i class="fas fa-search me-1"></i>
+                                Search
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" id="clearBtn">
+                                <i class="fas fa-times me-1"></i>
+                                Clear
+                            </button>
+                            <button type="button" class="btn btn-outline-info" id="refreshBtn">
+                                <i class="fas fa-sync me-1"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="text-center mb-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading videos...</p>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <!-- Videos Grid -->
+    <div class="row" id="videosContainer">
+        <!-- Videos will be loaded here -->
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <nav id="paginationContainer" style="display: none;">
+                <ul class="pagination justify-content-center" id="paginationList">
+                    <!-- Pagination will be loaded here -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
